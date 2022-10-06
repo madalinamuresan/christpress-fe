@@ -1,100 +1,130 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
+
   const bibleBookNames = [
-    { name: "Geneza" },
-    { name: "Exod" },
-    { name: "Leviticul" },
-    { name: "Numeri" },
-    { name: "Deuteronomul" },
-    { name: "Iosua" },
-    { name: "Judecatorii" },
-    { name: "Rut" },
-    { name: "1 Samuel" },
-    { name: "2 Samuel" },
-    { name: "1 Imparati" },
-    { name: "2 Imparati" },
-    { name: "1 Cronici" },
-    { name: "2 Cronici" },
-    { name: "Ezra" },
-    { name: "Neemia" },
-    { name: "Estera" },
-    { name: "Iov" },
-    { name: "Psalmii" },
-    { name: "Proverbe" },
-    { name: "Eclesiastul" },
-    { name: "Cantarea Cantarilor" },
-    { name: "Isaia" },
-    { name: "Ieremia" },
-    { name: "Plangerile lui Ieremia" },
-    { name: "Ezechiel" },
-    { name: "Daniel" },
-    { name: "Osea" },
-    { name: "Ioel" },
-    { name: "Amos" },
-    { name: "Obadia" },
-    { name: "Iona" },
-    { name: "Mica" },
-    { name: "Naum" },
-    { name: "Habacuc" },
-    { name: "Tefania" },
-    { name: "Hagai" },
-    { name: "Zaharia" },
-    { name: "Maleahi" },
-    { name: "Matei" },
-    { name: "Marcu" },
-    { name: "Luca" },
-    { name: "Ioan" },
-    { name: "Faptele Apostolilor" },
-    { name: "Romani" },
-    { name: "1 Corinteni" },
-    { name: "2 Corinteni" },
-    { name: "Galateni" },
-    { name: "Efeseni" },
-    { name: "Filipeni" },
-    { name: "Coloseni" },
-    { name: "1 Tesaloniceni" },
-    { name: "2 Tesaloniceni" },
-    { name: "1 Timotei" },
-    { name: "2 Timotei" },
-    { name: "Tit" },
-    { name: "Filimo" },
-    { name: "Evrei" },
-    { name: "Iacov" },
-    { name: "1 Petru" },
-    { name: "2 Petru" },
-    { name: "1 Ioan" },
-    { name: "2 Ioan" },
-    { name: "3 Ioan" },
-    { name: "Iuda" },
-    { name: "Apocalipsa" }
+    { id: 1, name: "Geneza" },
+    { id: 2, name: "Exod" },
+    { id: 3, name: "Leviticul" },
+    { id: 4, name: "Numeri" },
+    { id: 5, name: "Deuteronomul" },
+    { id: 6, name: "Iosua" },
+    { id: 7, name: "Judecatorii" },
+    { id: 8, name: "Rut" },
+    { id: 9, name: "1 Samuel" },
+    { id: 10, name: "2 Samuel" },
+    { id: 11, name: "1 Imparati" },
+    { id: 12, name: "2 Imparati" },
+    { id: 13, name: "1 Cronici" },
+    { id: 14, name: "2 Cronici" },
+    { id: 15, name: "Ezra" },
+    { id: 16, name: "Neemia" },
+    { id: 17, name: "Estera" },
+    { id: 18, name: "Iov" },
+    { id: 19, name: "Psalmii" },
+    { id: 20, name: "Proverbe" },
+    { id: 21, name: "Eclesiastul" },
+    { id: 22, name: "Cantarea Cantarilor" },
+    { id: 23, name: "Isaia" },
+    { id: 24, name: "Ieremia" },
+    { id: 25, name: "Plangerile lui Ieremia" },
+    { id: 26, name: "Ezechiel" },
+    { id: 27, name: "Daniel" },
+    { id: 28, name: "Osea" },
+    { id: 29, name: "Ioel" },
+    { id: 30, name: "Amos" },
+    { id: 31, name: "Obadia" },
+    { id: 32, name: "Iona" },
+    { id: 33, name: "Mica" },
+    { id: 34, name: "Naum" },
+    { id: 35, name: "Habacuc" },
+    { id: 36, name: "Tefania" },
+    { id: 37, name: "Hagai" },
+    { id: 38, name: "Zaharia" },
+    { id: 39, name: "Maleahi" },
+    { id: 40, name: "Matei" },
+    { id: 41, name: "Marcu" },
+    { id: 42, name: "Luca" },
+    { id: 43, name: "Ioan" },
+    { id: 44, name: "Faptele Apostolilor" },
+    { id: 45, name: "Romani" },
+    { id: 46, name: "1 Corinteni" },
+    { id: 47, name: "2 Corinteni" },
+    { id: 48, name: "Galateni" },
+    { id: 49, name: "Efeseni" },
+    { id: 50, name: "Filipeni" },
+    { id: 51, name: "Coloseni" },
+    { id: 52, name: "1 Tesaloniceni" },
+    { id: 53, name: "2 Tesaloniceni" },
+    { id: 54, name: "1 Timotei" },
+    { id: 55, name: "2 Timotei" },
+    { id: 56, name: "Tit" },
+    { id: 57, name: "Filimo" },
+    { id: 58, name: "Evrei" },
+    { id: 59, name: "Iacov" },
+    { id: 60, name: "1 Petru" },
+    { id: 61, name: "2 Petru" },
+    { id: 62, name: "1 Ioan" },
+    { id: 63, name: "2 Ioan" },
+    { id: 64, name: "3 Ioan" },
+    { id: 65, name: "Iuda" },
+    { id: 66, name: "Apocalipsa" }
   ]
-  const selectedBibleBook = ref()
+  let selectedBibleBook = ref()
+  let selectedBibleBookChapter = ref()
+  let bookChaptersData = ref({})
+
+  const setChapterVerses = (chapterNumber) => {
+    // todo
+    // bookChaptersData.value.filter(chapter => chapter.chapter_number == chapterNumber)
+  }
+  watch(selectedBibleBook, (newSelectedBibleBook) => {
+    fetch(`https://christpress.herokuapp.com/books/${newSelectedBibleBook.id}`)
+      .then(response => response.json())
+      .then(data => {
+        bookChaptersData.value = data.chapters
+      })
+  })
+
 </script>
 
 <template>
-  <!-- <Dropdown v-model="selectedBibleBook" :options="bibleBookNames" optionLabel="name" placeholder="Selecteaza o carte" :editable="true"/> -->
-  <Dropdown v-model="selectedBibleBook" :options="bibleBookNames" optionLabel="name" :filter="true" placeholder="Selecteaza o carte" :showClear="true">
-    <template #value="slotProps">
-      <div class="country-item country-item-value" v-if="slotProps.value">
-        <i class="pi pi-book" style="font-size: 1.5rem"></i>
-        <div>{{slotProps.value.name}}</div>
+  <div class="flex justify-content-center flex-wrap">
+    <div class="col-12 lg:col-8">
+      <Dropdown v-model="selectedBibleBook" :options="bibleBookNames" optionLabel="name" :filter="true" placeholder="Selecteaza o carte" :showClear="true">
+        <template #value="slotProps">
+          <div class="country-item country-item-value" v-if="slotProps.value">
+            <i class="pi pi-book" style="font-size: 1.5rem"></i>
+            <div>{{slotProps.value.name}}</div>
+          </div>
+          <span v-else>
+            {{slotProps.placeholder}}
+          </span>
+        </template>
+        <template #option="slotProps">
+          <div class="country-item">
+            <i class="pi pi-book" style="font-size: 1.5rem"></i>
+            <div>{{slotProps.option.name}}</div>
+          </div>
+        </template>
+      </Dropdown>
+    </div>
+  </div>
+  <div class="flex justify-content-center flex-wrap">
+    <div class="col-12 lg:col-8">
+      <div class="card">
+        <div class="flex md:justify-content-start justify-content-center flex-wrap card-container cyan-container">
+          <div v-for="chapter in bookChaptersData" :key="chapter.chapter_number">
+            <div @click="setChapterVerses(chapter.chapter_number)" class="pointer flex align-items-center justify-content-center w-4rem h-4rem bg-cyan-500 font-bold text-white border-round m-2">{{chapter.chapter_number}}</div>
+          </div>
+        </div>
       </div>
-      <span v-else>
-        {{slotProps.placeholder}}
-      </span>
-    </template>
-    <template #option="slotProps">
-      <div class="country-item">
-        <i class="pi pi-book" style="font-size: 1.5rem"></i>
-        <div>{{slotProps.option.name}}</div>
-      </div>
-    </template>
-  </Dropdown>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
   .p-dropdown {
-    width: 16rem;
+    width: 100%;
   }
 
   .country-item {
@@ -103,5 +133,9 @@
       margin-right: 1rem;
     }
     display: inline-flex;
-  } 
+  }
+
+  .pointer {
+    cursor: pointer
+  }
 </style>
