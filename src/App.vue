@@ -1,5 +1,6 @@
 <script setup>
-  import { ref, watch } from 'vue'
+  import Breadcrumb from 'primevue/breadcrumb';
+import { ref, watch } from 'vue'
 
   const bibleBookNames = [
     { id: 1, name: "Geneza" },
@@ -74,20 +75,39 @@
   let bookChaptersData = ref({})
 
   const setChapterVerses = (chapterNumber) => {
-    // todo
-    // bookChaptersData.value.filter(chapter => chapter.chapter_number == chapterNumber)
+    if (selectedBibleBookChapter.value != null) {
+      breadcrumbItems.value.pop()
+    }
+    selectedBibleBookChapter.value = bookChaptersData.value.filter(chapter => chapter.chapter_number == chapterNumber)[0]
+    breadcrumbItems.value.push({label: chapterNumber})
   }
   watch(selectedBibleBook, (newSelectedBibleBook) => {
-    fetch(`https://christpress.herokuapp.com/books/${newSelectedBibleBook.id}`)
-      .then(response => response.json())
-      .then(data => {
-        bookChaptersData.value = data.chapters
-      })
+    if (newSelectedBibleBook != null) {
+      fetch(`https://christpress.herokuapp.com/books/${newSelectedBibleBook.id}`)
+        .then(response => response.json())
+        .then(data => {
+          bookChaptersData.value = data.chapters
+          breadcrumbItems.value.pop()
+          breadcrumbItems.value.push({label: newSelectedBibleBook.name})
+        })
+    } else {
+      bookChaptersData.value = {}
+    }
   })
 
+  const home = ref({
+    icon: 'pi pi-home', 
+    to: '/',
+  });
+  const breadcrumbItems = ref([]);
 </script>
 
 <template>
+  <div class="flex justify-content-center flex-wrap">
+    <div class="col-12 lg:col-8">
+      <Breadcrumb :home="home" :model="breadcrumbItems" />
+    </div>
+  </div>
   <div class="flex justify-content-center flex-wrap">
     <div class="col-12 lg:col-8">
       <Dropdown v-model="selectedBibleBook" :options="bibleBookNames" optionLabel="name" :filter="true" placeholder="Selecteaza o carte" :showClear="true">
@@ -120,6 +140,7 @@
       </div>
     </div>
   </div>
+  {{selectedBibleBookChapter}}
 </template>
 
 <style lang="scss" scoped>
