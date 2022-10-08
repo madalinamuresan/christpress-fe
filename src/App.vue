@@ -1,6 +1,5 @@
 <script setup>
-  import Breadcrumb from 'primevue/breadcrumb';
-import { ref, watch } from 'vue'
+  import { ref, watch } from 'vue'
 
   const bibleBookNames = [
     { id: 1, name: "Geneza" },
@@ -75,39 +74,22 @@ import { ref, watch } from 'vue'
   let bookChaptersData = ref({})
 
   const setChapterVerses = (chapterNumber) => {
-    if (selectedBibleBookChapter.value != null) {
-      breadcrumbItems.value.pop()
-    }
     selectedBibleBookChapter.value = bookChaptersData.value.filter(chapter => chapter.chapter_number == chapterNumber)[0]
-    breadcrumbItems.value.push({label: chapterNumber})
   }
   watch(selectedBibleBook, (newSelectedBibleBook) => {
+    bookChaptersData.value = {}
+    selectedBibleBookChapter.value = null
     if (newSelectedBibleBook != null) {
       fetch(`https://christpress.herokuapp.com/books/${newSelectedBibleBook.id}`)
         .then(response => response.json())
         .then(data => {
           bookChaptersData.value = data.chapters
-          breadcrumbItems.value.pop()
-          breadcrumbItems.value.push({label: newSelectedBibleBook.name})
         })
-    } else {
-      bookChaptersData.value = {}
     }
   })
-
-  const home = ref({
-    icon: 'pi pi-home', 
-    to: '/',
-  });
-  const breadcrumbItems = ref([]);
 </script>
 
 <template>
-  <div class="flex justify-content-center flex-wrap">
-    <div class="col-12 lg:col-8">
-      <Breadcrumb :home="home" :model="breadcrumbItems" />
-    </div>
-  </div>
   <div class="flex justify-content-center flex-wrap">
     <div class="col-12 lg:col-8">
       <Dropdown v-model="selectedBibleBook" :options="bibleBookNames" optionLabel="name" :filter="true" placeholder="Selecteaza o carte" :showClear="true">
@@ -140,7 +122,13 @@ import { ref, watch } from 'vue'
       </div>
     </div>
   </div>
-  {{selectedBibleBookChapter}}
+  <div v-if="selectedBibleBookChapter" class="flex justify-content-center flex-wrap">
+    <div class="col-12 lg:col-8">
+      <div v-for="verse in selectedBibleBookChapter.chapter_verses">
+        <p>{{verse.verse_number}}. {{verse.value}}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
