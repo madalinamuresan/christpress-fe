@@ -132,7 +132,7 @@
   <div>
     <Menubar :model="items">
       <template #start>
-        <img alt="logo" src="logo.png" height="40" class="mr-2">
+        <img alt="logo" src="/public/logo.png" height="40" class="mr-2">
       </template>
       <template #end>
         <InputText placeholder="Search" type="text" />
